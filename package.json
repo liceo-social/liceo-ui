@@ -56,7 +56,9 @@
     "prettier": "^2.7.1"
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.{ts,css,md}": "prettier ./src --write"
+    "*.ts": [
+      "eslint --cache --fix",
+      "prettier ./src --write"
+    ]
   }
 }
