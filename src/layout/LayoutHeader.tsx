@@ -5,32 +5,24 @@ import {
   Group,
   Header,
   Menu,
-  Text,
   useMantineTheme,
   useMantineColorScheme,
   ActionIcon,
-  Indicator,
   Autocomplete,
 } from "@mantine/core";
 import {
   IconChevronDown,
-  IconHomeCog,
   IconLogout,
   IconMoonStars,
-  IconPackage,
-  IconPresentationAnalytics,
   IconSearch,
   IconSettings,
-  IconSquareCheck,
   IconSun,
   IconUser,
-  IconUserCircle,
 } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import LiceoLogo from "./logo.svg";
 
-const useStyles = createStyles((theme, _params, getRef) => {
-  const icon = getRef("icon");
+const useStyles = createStyles((theme) => {
   return {
     header: {
       padding: "0.75em 1.2em",

@@ -1,18 +1,9 @@
-import React, { Component, useState } from "react";
 import {
-  IconHome,
   IconInfoCircle,
   IconPresentationAnalytics,
-  IconUserCircle,
   TablerIcon,
 } from "@tabler/icons";
-import {
-  ThemeIcon,
-  UnstyledButton,
-  Group,
-  Text,
-  createStyles,
-} from "@mantine/core";
+import { createStyles } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 
 interface MainLinkProps {
@@ -126,6 +117,6 @@ const data = [
 ];
 
 export default function MainLinks() {
-  const links = data.map((link) => <Link {...link} />);
+  const links = data.map((link) => <Link key={link.label} {...link} />);
   return <div>{links}</div>;
 }

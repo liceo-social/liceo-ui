@@ -6,16 +6,10 @@ import {
   Tooltip,
   Title,
   Collapse,
-  Indicator,
 } from "@mantine/core";
 import {
   IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
   IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
   IconPresentationAnalytics,
   IconInfoCircle,
   IconDatabase,
@@ -30,7 +24,7 @@ import {
   IconGenderAgender,
   IconGenderFemale,
 } from "@tabler/icons";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

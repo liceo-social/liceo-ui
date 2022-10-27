@@ -1,12 +1,5 @@
-import { ActionIcon, Box, Group, useMantineColorScheme } from "@mantine/core";
-import {
-  IconArrowLeft,
-  IconChevronLeft,
-  IconMenu,
-  IconMoonStars,
-  IconPresentationAnalytics,
-  IconSun,
-} from "@tabler/icons";
+import { ActionIcon, Box, Group } from "@mantine/core";
+import { IconChevronLeft } from "@tabler/icons";
 
 export default function LayoutNavbarHeader() {
   return (
