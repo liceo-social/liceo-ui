@@ -5,7 +5,7 @@ const routes: RouteObject[] = [
   {
     path: "/logout",
     element: <Login />,
-     },
+      },
 ];
 
 export { routes };
