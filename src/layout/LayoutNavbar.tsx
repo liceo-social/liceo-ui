@@ -336,7 +336,7 @@ export default function LayoutNavbar() {
   };
 
   return (
-    <Navbar width={{ sm: showItems ? 300 : 40 }}>
+    <Navbar width={{ sm: showItems ? 300 : 50 }}>
       <Navbar.Section grow className={classes.wrapper}>
         <div className={classes.aside}>
           <div className={classes.logo}>

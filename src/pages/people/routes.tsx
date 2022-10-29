@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import ListPeople from "./ListPeople";
+import ListPeople from "./list/ListPeople";
 
 const routes: RouteObject[] = [
   {

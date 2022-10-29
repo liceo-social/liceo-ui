@@ -1,0 +1,116 @@
+import { PagedResult, Pagination } from "../../../common/domain/pagination";
+import { Person } from "../domain";
+
+const api = {
+  listPeople: (pagination: Pagination): PagedResult<Person> => {
+    console.log("refeching....");
+    return {
+      items: [
+        {
+          id: "123",
+          name: "Juan Andres Julianez",
+          age: 12,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: false,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "999",
+          name: "Gina Londorinoe",
+          age: 34,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "484",
+          name: "Lorenzo Gutierrez Silva",
+          age: 39,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: false,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "123",
+          name: "Juan Andres Julianez",
+          age: 12,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "999",
+          name: "Gina Londorinoe",
+          age: 34,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "484",
+          name: "Lorenzo Gutierrez Silva",
+          age: 39,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "123",
+          name: "Juan Andres Julianez",
+          age: 12,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "999",
+          name: "Gina Londorinoe",
+          age: 34,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "484",
+          name: "Lorenzo Gutierrez Silva",
+          age: 39,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+        {
+          id: "123",
+          name: "Juan Andres Julianez",
+          age: 12,
+          via: "propia entidad",
+          created: "28/12/2022",
+          active: true,
+          handler: "Admin",
+          projects: "N/A",
+        },
+      ],
+      isEmpty: false,
+      size: 3,
+    };
+  },
+};
+
+export { api };
