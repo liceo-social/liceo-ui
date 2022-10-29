@@ -2,21 +2,40 @@ import {
   Anchor,
   Avatar,
   Badge,
+  Button,
   Center,
+  Checkbox,
   createStyles,
+  Group,
+  Pagination,
+  RangeSlider,
+  Select,
   Skeleton,
+  Slider,
   Table,
   TextInput,
+  UnstyledButton,
 } from "@mantine/core";
 import {
+  IconBuildingCommunity,
+  IconCalendar,
   IconCheck,
+  IconCircle,
+  IconCircleCaretDown,
+  IconCircleDot,
+  IconCircleLetterA,
+  IconCircleLetterI,
   IconCross,
   IconMoodKid,
   IconMoodTongueWink2,
+  IconRoad,
+  IconRoadOff,
+  IconSearch,
   IconX,
 } from "@tabler/icons";
 import { Link } from "react-router-dom";
 import { Person } from "../domain";
+import TableHeader from "./TableHeader";
 
 interface ListPeopleTableProps {
   people: Person[] | undefined;
@@ -48,9 +67,9 @@ export default function ListPeopleTable({
 
   const getActiveIcon = (active: boolean) => {
     if (active) {
-      return <Badge color="green">active</Badge>;
+      return <IconCircleLetterA color="green" />;
     }
-    return <Badge color="red">inactive</Badge>;
+    return <IconCircleLetterI color="red" />;
   };
 
   const rows = people?.map((person) => {
@@ -60,18 +79,15 @@ export default function ListPeopleTable({
           <Center>
             <Avatar
               radius="xl"
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+              size={32}
+              src={person.icon}
               alt="no image here"
             />
           </Center>
         </td>
         <td>{person.name}</td>
         <td className="center">{person.age}</td>
-        <td className="center">
-          <Anchor component={Link} to="/">
-            {person.via}
-          </Anchor>
-        </td>
+        <td className="center">{person.via}</td>
         <td className="center">{person.created}</td>
         <td className="center">{getActiveIcon(person.active)}</td>
         <td className="center">
@@ -91,12 +107,10 @@ export default function ListPeopleTable({
   const emptyRows = [
     <tr key="9999">
       <td>
-        <Center>
+        <Group>
           <Avatar radius="xl" src={null} alt="no image here" />
-        </Center>
-      </td>
-      <td>
-        <Skeleton height={8} mt={6} width="80%" radius="xl" />
+          <Skeleton height={8} mt={6} width="80%" radius="xl" />
+        </Group>
       </td>
       <td className="center">
         <Skeleton height={8} mt={6} width="50%" radius="xl" />
@@ -120,20 +134,35 @@ export default function ListPeopleTable({
   ];
 
   return (
-    <Table fontSize="md" className={classes.table} striped highlightOnHover>
+    <Table
+      className={classes.table}
+      striped
+      withColumnBorders
+      withBorder
+      highlightOnHover
+    >
       <thead>
         <tr>
-          <th className="center">Foto</th>
-          <th>Name</th>
-          <th className="center">Age</th>
-          <th className="center">Via</th>
-          <th className="center">Created</th>
-          <th className="center">Active</th>
-          <th className="center">Handler</th>
-          <th className="center">Project</th>
+          <TableHeader label="Photo" align="center" />
+          <TableHeader label="Nombre" sorted filtered />
+          <TableHeader label="Age" sorted filtered />
+          <TableHeader label="Via" sorted filtered />
+          <TableHeader label="Created" sorted filtered />
+          <TableHeader label="Active" sorted filtered />
+          <TableHeader label="Handler" sorted filtered />
+          <TableHeader label="Projects" sorted filtered />
         </tr>
       </thead>
       <tbody>{isLoading ? emptyRows : rows}</tbody>
+      <tfoot>
+        <tr>
+          <th colSpan={8}>
+            <Group position="right">
+              <Pagination total={100} page={1} />
+            </Group>
+          </th>
+        </tr>
+      </tfoot>
     </Table>
   );
 }
