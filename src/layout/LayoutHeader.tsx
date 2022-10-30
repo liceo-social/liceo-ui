@@ -96,26 +96,10 @@ export default function LayoutHeader() {
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item
-                  icon={
-                    <IconSettings
-                      size={16}
-                      color={theme.colors.blue[6]}
-                      stroke={1.5}
-                    />
-                  }
-                >
+                <Menu.Item icon={<IconSettings size={16} stroke={1.5} />}>
                   Settings
                 </Menu.Item>
-                <Menu.Item
-                  icon={
-                    <IconUser
-                      size={16}
-                      color={theme.colors.blue[6]}
-                      stroke={1.5}
-                    />
-                  }
-                >
+                <Menu.Item icon={<IconUser size={16} stroke={1.5} />}>
                   Profile
                 </Menu.Item>
                 <Menu.Divider></Menu.Divider>

@@ -1,13 +1,4 @@
-import {
-  Center,
-  Col,
-  createStyles,
-  Grid,
-  Group,
-  Text,
-  UnstyledButton,
-  TextProps,
-} from "@mantine/core";
+import { createStyles, Group, Text, UnstyledButton } from "@mantine/core";
 import { IconFilter, IconSortAscendingLetters } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
@@ -37,6 +28,15 @@ const useStyles = createStyles((theme) => ({
     flexBasis: "auto",
     paddingTop: ".2em",
   },
+  headerButtons: {
+    display: "flex",
+    ["button:hover svg"]: {
+      color:
+        theme.colorScheme === "dark"
+          ? theme.colors.gray[6]
+          : theme.colors.gray[6],
+    },
+  },
 }));
 
 interface TableHeaderProps {
@@ -54,13 +54,29 @@ export default function TableHeader({
 }: TableHeaderProps) {
   const { classes } = useStyles();
 
+  const renderFilterIconButton = () => {
+    return (
+      <UnstyledButton>
+        <IconFilter />
+      </UnstyledButton>
+    );
+  };
+
+  const renderSortIconButton = () => {
+    return (
+      <UnstyledButton>
+        <IconSortAscendingLetters />
+      </UnstyledButton>
+    );
+  };
+
   const filteringAndSorting = () => {
     if (sorted || filtered) {
       return (
-        <Group spacing="xs">
-          {filtered && <IconFilter />}
-          {sorted && <IconSortAscendingLetters />}
-        </Group>
+        <div className={classes.headerButtons}>
+          {filtered && renderFilterIconButton()}
+          {sorted && renderSortIconButton()}
+        </div>
       );
     }
     return null;

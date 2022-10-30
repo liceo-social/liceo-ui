@@ -1,26 +1,26 @@
-import { Button, Menu, Text } from "@mantine/core";
+import { Box, Button, createStyles, Menu } from "@mantine/core";
 import {
-  IconArrowsLeftRight,
   IconChevronDown,
   IconFileExport,
-  IconMessageCircle,
-  IconPhoto,
+  IconPlus,
   IconSearch,
   IconSettings,
-  IconTrash,
 } from "@tabler/icons";
 
 export default function ListPeopleActions() {
   return (
-    <Menu shadow="md" width={200}>
+    <Menu width={200} position="bottom-end">
       <Menu.Target>
-        <Button rightIcon={<IconChevronDown />}>Acciones</Button>
+        <Button
+          variant="light"
+          leftIcon={<IconSettings size={18} />}
+          rightIcon={<IconChevronDown size={18} stroke={1.5} />}
+        >
+          Acciones
+        </Button>
       </Menu.Target>
-
       <Menu.Dropdown>
-        <Menu.Label>Busqueda</Menu.Label>
-        <Menu.Item icon={<IconSearch size={14} />}>Avanzada</Menu.Item>
-        <Menu.Item icon={<IconFileExport size={14} />}>Exportar CSV</Menu.Item>
+        <Menu.Item icon={<IconPlus size={16} />}>Nueva persona</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

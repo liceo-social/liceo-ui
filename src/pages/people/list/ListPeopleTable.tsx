@@ -53,6 +53,9 @@ const useStyles = createStyles(() => ({
     ["td.center"]: {
       textAlign: "center",
     },
+    ["tfoot > tr > th"]: {
+      paddingTop: "1.5em",
+    },
   },
   tdCenter: {
     textAlign: "center",
@@ -75,17 +78,17 @@ export default function ListPeopleTable({
   const rows = people?.map((person) => {
     return (
       <tr key={person.id}>
-        <td>
-          <Center>
+        <td style={{ paddingLeft: "2em" }}>
+          <Group>
             <Avatar
               radius="xl"
               size={32}
               src={person.icon}
               alt="no image here"
             />
-          </Center>
+            {person.name}
+          </Group>
         </td>
-        <td>{person.name}</td>
         <td className="center">{person.age}</td>
         <td className="center">{person.via}</td>
         <td className="center">{person.created}</td>
@@ -109,7 +112,7 @@ export default function ListPeopleTable({
       <td>
         <Group>
           <Avatar radius="xl" src={null} alt="no image here" />
-          <Skeleton height={8} mt={6} width="80%" radius="xl" />
+          <Skeleton height={8} mt={6} width="40%" radius="xl" />
         </Group>
       </td>
       <td className="center">
@@ -134,16 +137,9 @@ export default function ListPeopleTable({
   ];
 
   return (
-    <Table
-      className={classes.table}
-      striped
-      withColumnBorders
-      withBorder
-      highlightOnHover
-    >
+    <Table className={classes.table} striped withColumnBorders highlightOnHover>
       <thead>
         <tr>
-          <TableHeader label="Photo" align="center" />
           <TableHeader label="Nombre" sorted filtered />
           <TableHeader label="Age" sorted filtered />
           <TableHeader label="Via" sorted filtered />
@@ -156,9 +152,9 @@ export default function ListPeopleTable({
       <tbody>{isLoading ? emptyRows : rows}</tbody>
       <tfoot>
         <tr>
-          <th colSpan={8}>
+          <th colSpan={7}>
             <Group position="right">
-              <Pagination total={100} page={1} />
+              {!isLoading && <Pagination total={100} page={1} />}
             </Group>
           </th>
         </tr>

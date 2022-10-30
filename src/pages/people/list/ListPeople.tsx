@@ -5,10 +5,25 @@ import {
   Container,
   createStyles,
   Grid,
+  Menu,
   Text,
   Title,
+  UnstyledButton,
 } from "@mantine/core";
+import {
+  IconDeviceFloppy,
+  IconFile,
+  IconFileExport,
+  IconFilter,
+  IconSortAscendingLetters,
+  IconTrash,
+  IconTriangleInverted,
+  IconTriangleSquareCircle,
+  IconVectorTriangle,
+  IconX,
+} from "@tabler/icons";
 import { useState } from "react";
+import FilterBadge from "./FilterBadge";
 import ListPeopleActions from "./ListPeopleActions";
 import ListPeopleTable from "./ListPeopleTable";
 import { queries } from "./queries";
@@ -16,19 +31,17 @@ import { queries } from "./queries";
 const useStyles = createStyles((theme) => ({
   pageBreadcrumbs: {
     marginBottom: "0em",
+    paddingBottom: 0,
   },
   pageHeader: {
-    marginBottom: ".5em",
-    marginTop: "0",
-    paddingTop: 0,
+    marginBottom: "2em",
   },
   pageHeaderActions: {
     display: "flex",
+    alignItems: "start",
+    paddingTop: 0,
+    marginTop: 0,
     justifyContent: "end",
-    ["button"]: {
-      width: "10em",
-      marginLeft: "1em",
-    },
   },
 }));
 
@@ -50,8 +63,31 @@ export default function ListPeople() {
           <ListPeopleActions />
         </Grid.Col>
         <Grid.Col xs={12}>
-          Filtros: <Badge>Nombre: Juan Andres X</Badge>{" "}
-          <Badge color="orange">Age: 12-18 X</Badge>
+          <Menu position="bottom-start">
+            <Menu.Target>
+              <UnstyledButton>
+                <IconFilter />
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item icon={<IconDeviceFloppy size={16} stroke={1.5} />}>
+                Salvar filtro actual
+              </Menu.Item>
+              <Menu.Item icon={<IconFile size={16} stroke={1.5} />}>
+                Abrir filtro guardado
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item icon={<IconFileExport size={16} stroke={1.5} />}>
+                Exportar a CSV
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item icon={<IconX size={16} stroke={1.5} color="red" />}>
+                Limpiar filtro actual
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          <FilterBadge label="Nombre" value="Juan Andres" />
+          <FilterBadge label="Age" value="0-17" />
         </Grid.Col>
         <Grid.Col xs={12}>
           <ListPeopleTable
