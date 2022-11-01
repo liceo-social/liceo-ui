@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { Pagination } from "../../../common/domain/pagination";
 import { api } from "./api";
 
 const queries = {
-  listPeople: (page: number) => {
-    return useQuery(["people", page], () => api.listPeople({ max: 20, page }));
+  listPeople: (pagination: Pagination) => {
+    return useQuery(["people", [pagination.page, pagination.max]], () =>
+      api.listPeople(pagination)
+    );
   },
 };
 

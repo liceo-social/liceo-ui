@@ -35,7 +35,7 @@ import {
 } from "@tabler/icons";
 import { Link } from "react-router-dom";
 import { Person } from "../domain";
-import TableHeader from "./TableHeader";
+import TableHeader from "./datagrid/TableHeader";
 
 interface ListPeopleTableProps {
   people: Person[] | undefined;

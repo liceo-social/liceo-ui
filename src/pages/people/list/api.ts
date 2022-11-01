@@ -1,23 +1,43 @@
+import { findAllByAltText } from "@testing-library/react";
 import { PagedResult, Pagination } from "../../../common/domain/pagination";
 import { Person } from "../domain";
 
+const range = (from: number, to: number): number[] => {
+  const numbers: number[] = [];
+  let i = 0;
+  const diff = to - from;
+  for (i = 0; i <= diff; i++) {
+    numbers[i] = from + i;
+  }
+  return numbers;
+};
+
+const items = range(0, 100).map((n) => ({
+  id: `$n`,
+  name: `Juan Julianez ${n}`,
+  icon: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80",
+  age: 12,
+  via: "Propia entidad",
+  created: "28/12/2022",
+  active: true,
+  handler: "Peter Jusien",
+  projects: "ALDEAS, CAMPAMENTOS...",
+}));
+
+const findAll = (pagination: Pagination) => {
+  const from = pagination.max * (pagination.page - 1);
+  const to = pagination.max * pagination.page;
+  return items.slice(from, to);
+};
+
 const api = {
   listPeople: (pagination: Pagination): PagedResult<Person> => {
-    console.log("refeching....");
+    const people: Person[] = findAll(pagination);
     return {
-      items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2].map((n) => ({
-        id: "123",
-        name: "Juan Andres Julianez",
-        icon: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80",
-        age: 12,
-        via: "Propia entidad",
-        created: "28/12/2022",
-        active: true,
-        handler: "Peter Jusien",
-        projects: "ALDEAS, CAMPAMENTOS...",
-      })),
+      items: people,
       isEmpty: false,
-      size: 3,
+      total: items.length,
+      size: people.length,
     };
   },
 };

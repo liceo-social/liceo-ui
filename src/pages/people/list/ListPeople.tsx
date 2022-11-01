@@ -1,12 +1,9 @@
 import {
-  Badge,
   Breadcrumbs,
-  Button,
   Container,
   createStyles,
   Grid,
   Menu,
-  Text,
   Title,
   UnstyledButton,
 } from "@mantine/core";
@@ -15,17 +12,12 @@ import {
   IconFile,
   IconFileExport,
   IconFilter,
-  IconSortAscendingLetters,
-  IconTrash,
-  IconTriangleInverted,
-  IconTriangleSquareCircle,
-  IconVectorTriangle,
   IconX,
 } from "@tabler/icons";
 import { useState } from "react";
+import DataGrid from "./datagrid/DataGrid";
 import FilterBadge from "./FilterBadge";
 import ListPeopleActions from "./ListPeopleActions";
-import ListPeopleTable from "./ListPeopleTable";
 import { queries } from "./queries";
 
 const useStyles = createStyles((theme) => ({
@@ -47,8 +39,8 @@ const useStyles = createStyles((theme) => ({
 
 export default function ListPeople() {
   const { classes } = useStyles();
-  const [page, setPage] = useState(1);
-  const query = queries.listPeople(page);
+  const [pagination, setPagination] = useState({ max: 10, page: 1 });
+  const query = queries.listPeople(pagination);
 
   return (
     <Container fluid>
@@ -90,9 +82,39 @@ export default function ListPeople() {
           <FilterBadge label="Age" value="0-17" />
         </Grid.Col>
         <Grid.Col xs={12}>
-          <ListPeopleTable
-            isLoading={query.isLoading}
-            people={query.data?.items}
+          <DataGrid
+            result={query.data}
+            elementsPerPage={10}
+            columnDefs={[
+              {
+                field: "icon",
+                label: "Foto",
+                type: "avatar",
+                align: "center",
+                sorted: false,
+                filtered: false,
+              },
+              { field: "name", label: "Nombre" },
+              { field: "age", label: "Edad", align: "center" },
+              { field: "via", label: "Via", align: "center" },
+              { field: "created", label: "Creado", align: "center" },
+              {
+                field: "active",
+                label: "Activo",
+                type: "boolean",
+                align: "center",
+              },
+              { field: "handler", label: "Responsable" },
+              { field: "projects", label: "Proyectos" },
+            ]}
+            defaultColumnDef={{
+              sorted: true,
+              filtered: true,
+            }}
+            dataHandlers={{
+              pagination: setPagination,
+              sort: setPagination,
+            }}
           />
         </Grid.Col>
       </Grid>
