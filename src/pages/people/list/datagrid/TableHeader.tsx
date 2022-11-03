@@ -1,5 +1,11 @@
-import { createStyles, Group, Text, UnstyledButton } from "@mantine/core";
-import { IconFilter, IconSortAscendingLetters } from "@tabler/icons";
+import { createStyles, Text, UnstyledButton } from "@mantine/core";
+import {
+  IconFilter,
+  IconSortAscendingLetters,
+  IconSortDescendingLetters,
+} from "@tabler/icons";
+import { useState } from "react";
+import { Filter, Sort } from "../../../../common/domain/pagination";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -40,32 +46,61 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface TableHeaderProps {
+  name: string;
   label: string;
   sorted?: boolean;
   filtered?: boolean;
   align?: React.CSSProperties["textAlign"];
+  onSorting?: (sort: Sort) => void;
+  onFiltering?: (filter: Filter) => void;
 }
 
 export default function TableHeader({
+  name,
   label,
   sorted,
   filtered,
   align,
+  onSorting,
+  onFiltering,
 }: TableHeaderProps) {
+  const [toggleDirection, setToggleDirection] = useState(false);
   const { classes } = useStyles();
 
+  function handleOnSorting() {
+    if (onSorting) {
+      onSorting({ field: name, direction: toggleDirection ? "asc" : "desc" });
+      setToggleDirection(!toggleDirection);
+    }
+  }
+
+  function handleOnFiltering() {
+    if (onFiltering) {
+      onFiltering({ field: name, value: "???" });
+    }
+  }
+
   const renderFilterIconButton = () => {
+    if (!filtered) {
+      return null;
+    }
+
     return (
-      <UnstyledButton>
+      <UnstyledButton onClick={handleOnFiltering}>
         <IconFilter />
       </UnstyledButton>
     );
   };
 
   const renderSortIconButton = () => {
+    if (!sorted) {
+      return null;
+    }
+
     return (
-      <UnstyledButton>
-        <IconSortAscendingLetters />
+      <UnstyledButton onClick={handleOnSorting}>
+        {toggleDirection && <IconSortAscendingLetters />}
+        {!toggleDirection && <IconSortDescendingLetters />}
       </UnstyledButton>
     );
   };
@@ -74,8 +109,8 @@ export default function TableHeader({
     if (sorted || filtered) {
       return (
         <div className={classes.headerButtons}>
-          {filtered && renderFilterIconButton()}
-          {sorted && renderSortIconButton()}
+          {renderFilterIconButton()}
+          {renderSortIconButton()}
         </div>
       );
     }

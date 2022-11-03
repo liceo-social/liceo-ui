@@ -1,7 +1,13 @@
+export interface Filter {
+  field: string;
+  value: string;
+}
+
 export interface Pagination {
   page: number;
   max: number;
-  sort?: Sort;
+  sorts?: Sort[];
+  filters?: Filter[];
 }
 
 export type SortDirection = "asc" | "desc";

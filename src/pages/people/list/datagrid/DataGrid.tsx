@@ -1,13 +1,18 @@
 import { Group, Table } from "@mantine/core";
 import { Pagination as PaginationComponent } from "@mantine/core";
 import { useState } from "react";
-import { PagedResult, Pagination } from "../../../../common/domain/pagination";
+import {
+  Filter,
+  PagedResult,
+  Pagination,
+  Sort,
+} from "../../../../common/domain/pagination";
 import { resolveRender } from "./Renders";
 import TableHeader from "./TableHeader";
 
 type ColumnAlignment = "center" | "left" | "right";
 
-interface ColumnDef {
+export interface ColumnDef {
   field: string;
   label: string;
   align?: ColumnAlignment;
@@ -16,49 +21,67 @@ interface ColumnDef {
   filtered?: boolean;
 }
 
-interface DefaultColumnDef {
+export interface DefaultColumnDef {
   sorted: boolean;
   filtered: boolean;
-}
-
-interface DataHandlers<T> {
-  pagination: (pagination: Pagination) => void;
-  sort: (pagination: Pagination) => void;
 }
 
 interface DataGridProps<T> {
   result: PagedResult<T> | undefined;
   elementsPerPage: number;
-  dataHandlers: DataHandlers<T>;
   columnDefs: ColumnDef[];
-  defaultColumnDef?: DefaultColumnDef;
+  columnDefsCommon?: DefaultColumnDef;
+  onChange: (pagination: Pagination) => void;
 }
 
 export default function DataGrid<T>({
   result,
   elementsPerPage,
-  dataHandlers,
+  onChange,
   columnDefs,
-  defaultColumnDef,
+  columnDefsCommon,
 }: DataGridProps<T>) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
+  const [filters, setFilters] = useState<Filter[]>([]);
+  const [sorts, setSorts] = useState<Sort[]>([]);
 
   function handlePagination(page: number) {
     setPage(page);
-    dataHandlers.pagination({ max: elementsPerPage, page: page });
+    onChange({ max: elementsPerPage, page: page });
   }
 
-  const headers = columnDefs.map((definition, index) => (
-    <TableHeader
-      key={index}
-      label={definition.label}
-      align={definition.align}
-      sorted={definition.sorted ?? defaultColumnDef?.sorted}
-      filtered={definition.filtered ?? defaultColumnDef?.filtered}
-    />
-  ));
+  function handleSorting(sort: Sort) {
+    setSorts([sort]);
+    onChange({ max: elementsPerPage, page, sorts: [...sorts, sort] });
+  }
 
-  const renderRows = (items: T[]) => {
+  function handleFiltering(filter: Filter) {
+    setFilters([...filters, filter]);
+    onChange({ max: elementsPerPage, page, sorts, filters });
+  }
+
+  function renderHeaders() {
+    const columns = columnDefs.map((definition, index) => (
+      <TableHeader
+        name={definition.field}
+        key={index}
+        label={definition.label}
+        align={definition.align}
+        sorted={definition.sorted ?? columnDefsCommon?.sorted}
+        filtered={definition.filtered ?? columnDefsCommon?.filtered}
+        onSorting={handleSorting}
+        onFiltering={handleFiltering}
+      />
+    ));
+
+    return <tr>{columns}</tr>;
+  }
+
+  function renderRows(items?: T[]) {
+    if (!items) {
+      return null;
+    }
+
     return items.map((item: T, i: number) => {
       const columns = columnDefs.map((definition: ColumnDef, j: number) => {
         const key = definition.field as keyof typeof item;
@@ -74,28 +97,30 @@ export default function DataGrid<T>({
 
       return <tr key={i}>{columns}</tr>;
     });
-  };
+  }
+
+  function renderFooter() {
+    return (
+      <tr>
+        <th colSpan={columnDefs.length}>
+          <Group position="right">
+            <PaginationComponent
+              total={(result?.total || elementsPerPage) / elementsPerPage}
+              siblings={0}
+              onChange={handlePagination}
+              page={page}
+            />
+          </Group>
+        </th>
+      </tr>
+    );
+  }
 
   return (
     <Table striped withColumnBorders highlightOnHover>
-      <thead>
-        <tr>{headers}</tr>
-      </thead>
-      <tbody>{renderRows(result?.items || [])}</tbody>
-      <tfoot>
-        <tr>
-          <th colSpan={columnDefs.length}>
-            <Group position="right">
-              <PaginationComponent
-                total={(result?.total || elementsPerPage) / elementsPerPage}
-                siblings={0}
-                onChange={handlePagination}
-                page={page}
-              />
-            </Group>
-          </th>
-        </tr>
-      </tfoot>
+      <thead>{renderHeaders()}</thead>
+      <tbody>{renderRows(result?.items)}</tbody>
+      <tfoot>{renderFooter()}</tfoot>
     </Table>
   );
 }
